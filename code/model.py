@@ -140,7 +140,16 @@ class LTOCF(BasicModel):
             embs.append(all_emb_4)
 
         embs = torch.stack(embs, dim=1)
-        light_out = torch.mean(embs, dim=1)        
+        light_out = torch.mean(embs, dim=1)
+        """
+        ### Eq.(11) in paper
+        The final embeddings are calculated as follows:
+        
+        \begin{align}
+        \boldsymbol{E}^u_{final} = w_0\boldsymbol{u}(0) + \sum_{i=1}^{T}w_i\boldsymbol{u}(t_i) + w_K\boldsymbol{u}(K),\\
+        \boldsymbol{E}^p_{final} = w_0\boldsymbol{p}(0) + \sum_{i=1}^{T}w_i\boldsymbol{p}(t_i) + w_K\boldsymbol{p}(K).
+        \end{align}
+        """
 
         users, items = torch.split(light_out, [self.num_users, self.num_items])
         return users, items
