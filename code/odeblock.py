@@ -16,15 +16,17 @@ class ODEFunction(nn.Module):
         self.g = Graph
 
     def forward(self, t, x):
+        out = torch.sparse.mm(self.g, x)
         """
         ## linear GCN (non-time-dependent) in ODE function
-        
+        Its linear graph convolutional layer definition is as follows:
+
         \begin{align}
-        \boldsymbol{E}_{k} = \boldsymbol{A}\boldsymbol{E}_{k-1}
+        \boldsymbol{E}_{k} = \tilde{\boldsymbol{A}}\boldsymbol{E}_{k-1},
         \end{align}
 
+        where $\tilde{\boldsymbol{A}} is a normalized adjacency matrix of the graph.
         """
-        out = torch.sparse.mm(self.g, x)
         return out
 
 class ODEBlock(nn.Module):
@@ -37,8 +39,12 @@ class ODEBlock(nn.Module):
 
     def forward(self, x):
         self.integration_time = self.integration_time.type_as(x)
-        """## return the last time of ODE Integration"""
         out = odeint(func=self.odefunc, y0=x, t=self.integration_time, method=self.solver)
+        """### return the last time of ODE Integration
+        \begin{align}
+        \boldsymbol{h}(t_{i+1}) = \boldsymbol{h}(t_i) + \int_{t_i}^{t_{i+1}}f(\boldsymbol{h}(t),t;\boldsymbol{\theta}_f)dt,
+        \end{align}
+        """
         return out[1]
 
 class ODEBlockTimeFirst(nn.Module):
