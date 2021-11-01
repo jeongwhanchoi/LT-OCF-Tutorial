@@ -2,7 +2,7 @@
 
 [![Arxiv link](https://img.shields.io/static/v1?label=arXiv&message=LT-OCF&color=red&logo=arxiv)](https://arxiv.org/abs/2108.06208) [![BigDyL Link](https://img.shields.io/static/v1?label=&message=BigDyL&color=blue)](https://sites.google.com/view/npark/home?authuser=0)
 
-- Links for Tutorial: 
+## Links for Tutorial: 
     - Google Colab Notebook Link: [Colab](https://colab.research.google.com/drive/1lLgGStY7LisFGelY5HdHXZrgjSXO29kz?usp=sharing)
     - Annotated Tutorial link: [Annotated LT-OCF](https://lit.labml.ai/github/jeongwhanchoi/LT-OCF-Tutorial/tree/main/code)
     - Original Github repository: [LT-OCF](https://github.com/jeongwhanchoi/LT-OCF)
