@@ -145,7 +145,7 @@ class LTOCF(BasicModel):
         Therefore, Eq. (9) can be re-written as follows:
 
         \begin{align}
-        \mathop{\boldsymbol{u}(t_1) =&\; \color{red}{\boldsymbol{u}(0)} + \int_{0}^{t_1}f(\boldsymbol{p}(t))dt},\\
+        \boldsymbol{u}(t_1) =&\; \color{red}{\boldsymbol{u}(0)} + \int_{0}^{t_1}f(\boldsymbol{p}(t))dt,\\
         \boldsymbol{p}(t_1) =&\; \boldsymbol{p}(0) + \int_{0}^{t_1}g(\boldsymbol{u}(t))dt,\\
         \vdots\\
         \boldsymbol{u}(K) =&\; \boldsymbol{u}(t_T) + \int_{t_T}^{K}f(\boldsymbol{p}(t))dt,\\
