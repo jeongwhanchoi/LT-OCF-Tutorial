@@ -84,14 +84,15 @@ class LTOCF(BasicModel):
     def computer(self):
         """
         ## propagate methods for LT-OCF
-        
-        - `users_emb`: $\boldsymbol{u}$
-        - `items_emb`: $\boldsymbol{p}$$
         """       
         users_emb = self.embedding_user.weight
         items_emb = self.embedding_item.weight
         all_emb = torch.cat([users_emb, items_emb])
         embs = [all_emb]
+        """
+        - `users_emb`: $\boldsymbol{u}$
+        - `items_emb`: $\boldsymbol{p}$
+        """
         
         """
         ## Dual co-evolving ODEs
