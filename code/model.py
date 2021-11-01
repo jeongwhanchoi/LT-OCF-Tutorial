@@ -99,8 +99,8 @@ class LTOCF(BasicModel):
         all_emb = torch.cat([users_emb, items_emb])
         embs = [all_emb]
         """
-        - `users_emb`: $\boldsymbol{u}$
-        - `items_emb`: $\boldsymbol{p}$
+        - `users_emb`: $\boldsymbol{u}(t)$, a user embedding matrix
+        - `items_emb`: $\boldsymbol{p}(t)$, a item embedding matrix
         """
         
         if world.config['learnable_time'] == True:
@@ -152,7 +152,7 @@ class LTOCF(BasicModel):
         \boldsymbol{p}(K) =&\; \color{red}{\boldsymbol{p}(t_T) +} \int_{t_T}^{K}g(\boldsymbol{u}(t))dt,
         \end{align}
         
-        where $t_i$ is trainable for all $i$.
+        where $t_i$ is trainable for all $i$. The parts of the equation highlighted in red are used to create residual connections.
         """
 
         embs = torch.stack(embs, dim=1)
