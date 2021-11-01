@@ -85,8 +85,8 @@ class LTOCF(BasicModel):
         """
         ## propagate methods for LT-OCF
         
-        - $\boldsymbol{u}$:
-        - $p$: 
+        - `users_emb`: $\boldsymbol{u}$
+        - `items_emb`: $\boldsymbol{p}$$
         """       
         users_emb = self.embedding_user.weight
         items_emb = self.embedding_item.weight
