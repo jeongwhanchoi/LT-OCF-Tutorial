@@ -82,8 +82,8 @@ class LTOCF(BasicModel):
         The user and product embedding co-evolutionary processes can be written as follows(Eq.(9) in paper):
 
         \begin{align}
-        \bm{u}(K) =&\; \boldsymbol{u}(0) + \int_{0}^{K}f(\boldsymbol{p}(t))dt,\\
-        \bm{p}(K) =&\; \boldsymbol{p}(0) + \int_{0}^{K}g(\boldsymbol{u}(t))dt,
+        \boldsymbol{u}(K) =&\; \boldsymbol{u}(0) + \int_{0}^{K}f(\boldsymbol{p}(t))dt,\\
+        \boldsymbol{p}(K) =&\; \boldsymbol{p}(0) + \int_{0}^{K}g(\boldsymbol{u}(t))dt,
         \end{align}
         """
     def get_time(self):
