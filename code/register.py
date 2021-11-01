@@ -23,7 +23,5 @@ print('===========end===================')
 MODELS = {
     'mf': model.PureMF,
     'lgn': model.LightGCN,
-    'ltocf': model.LTOCF,
-    'ltocf2': model.LTOCF2,
-    'ltocf1': model.LTOCF1
+    'ltocf': model.LTOCF
 }
