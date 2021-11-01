@@ -48,4 +48,6 @@ def parse_args():
     parser.add_argument('--atol', type=float,default=1e-9,help="atol")
     parser.add_argument('--pretrained_file', type=str,default="ltocf")
     parser.add_argument('--K', type=float, default=4, help="final integral time K")
-    return parser.parse_args()
+    args, _ = parser.parse_known_args()
+    return args
+    
