@@ -6,9 +6,11 @@ if world.adjoint:
 else:
     from torchdiffeq import odeint
 
+from labml import monit, tracker, logger, experiment
+
 class ODEFunction(nn.Module):
-    """[summary]
-        LGC, non-time-dependent
+    """
+       ## linear GCN (non-time-dependent) in ODE function
     """
     def __init__(self, Graph):
         super(ODEFunction, self).__init__()
@@ -16,7 +18,7 @@ class ODEFunction(nn.Module):
 
     def forward(self, t, x):
         """
-        ODEFUNCTION(| --> only single layer --> |)
+        $\boldsymbol{E}_{k} = \boldsymbol{A}\boldsymbol{E}_{k-1}
         """
         out = torch.sparse.mm(self.g, x)
         return out
