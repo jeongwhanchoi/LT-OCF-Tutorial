@@ -1,7 +1,3 @@
-"""
-# ODE Block and ODE function
-
-"""
 import torch
 import torch.nn as nn 
 import world
@@ -9,6 +5,10 @@ if world.adjoint:
     from torchdiffeq import odeint_adjoint as odeint
 else:
     from torchdiffeq import odeint
+"""
+# ODE Block and ODE function
+We use the [torchDiffeq package](https://github.com/rtqichen/torchdiffeq) to design co-evolutionary ODEs.
+"""
 
 class ODEFunction(nn.Module):
     def __init__(self, Graph):
