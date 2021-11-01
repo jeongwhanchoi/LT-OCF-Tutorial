@@ -76,7 +76,16 @@ class LTOCF(BasicModel):
             self.ode_block_2 = ode.ODEBlock(ode.ODEFunction(self.Graph), self.config['solver'], self.odetime_splitted[0], self.odetime_splitted[1])
             self.ode_block_3 = ode.ODEBlock(ode.ODEFunction(self.Graph), self.config['solver'], self.odetime_splitted[1], self.odetime_splitted[2])
             self.ode_block_4 = ode.ODEBlock(ode.ODEFunction(self.Graph), self.config['solver'], self.odetime_splitted[2], self.config['K'])
+        """
+        ## ODE-based User and Product Embeddings
 
+        The user and product embedding co-evolutionary processes can be written as follows(Eq.(9) in paper):
+
+        \begin{align}
+        \bm{u}(K) =&\; \boldsymbol{u}(0) + \int_{0}^{K}f(\boldsymbol{p}(t))dt,\\
+        \bm{p}(K) =&\; \boldsymbol{p}(0) + \int_{0}^{K}g(\boldsymbol{u}(t))dt,
+        \end{align}
+        """
     def get_time(self):
         ode_times=list(self.odetime_1)+ list(self.odetime_2)+ list(self.odetime_3)
         return ode_times
@@ -129,14 +138,21 @@ class LTOCF(BasicModel):
             all_emb_4 = all_emb_4 - all_emb_3
             embs.append(all_emb_4)
         """
-        ## Dual co-evolving ODEs
+        ## Learnable-time Architecture
+        In our framework, we can learn how to construct the layer combination (rather than relying on a manually designed architecture). 
+        In order to adopt such an advanced option, we extract $\boldsymbol{u}(t)$ and $\boldsymbol{p}(t)$ with several different learnable time-points $t \in \{t_1, \cdots, t_T\}$, where $T$ is a hyperparameter, and $0 < t_i < t_{i+1} < K$ for all $i$.
+        
+        Therefore, Eq. (9) can be re-written as follows:
+
         \begin{align}
-        \boldsymbol{u}(t_1) =&\; \boldsymbol{u}(0) + \int_{0}^{t_1}f(\boldsymbol{p}(t))dt,\\
+        \boldsymbol{u}(t_1) =&\; {\color{red}\boldsymbol{u}(0)} + \int_{0}^{t_1}f(\boldsymbol{p}(t))dt,\\
         \boldsymbol{p}(t_1) =&\; \boldsymbol{p}(0) + \int_{0}^{t_1}g(\boldsymbol{u}(t))dt,\\
         \vdots\\
         \boldsymbol{u}(K) =&\; \boldsymbol{u}(t_T) + \int_{t_T}^{K}f(\boldsymbol{p}(t))dt,\\
         \boldsymbol{p}(K) =&\; \boldsymbol{p}(t_T) + \int_{t_T}^{K}g(\boldsymbol{u}(t))dt,
         \end{align}
+        
+        where $t_i$ is trainable for all $i$.
         """
 
         embs = torch.stack(embs, dim=1)
@@ -183,6 +199,18 @@ class LTOCF(BasicModel):
         neg_scores = torch.sum(neg_scores, dim=1)
         
         loss = torch.mean(torch.nn.functional.softplus(neg_scores - pos_scores))
+        """
+
+        After a series of $K$ graph convolutional layers, 
+        a graph-based CF algorithm derives $\boldsymbol{E}^u_{final}$ and $\boldsymbol{E}^p_{final}$ 
+        and use their dot products to predict $r_{u,i}$, 
+        a rating (or ranking score) by user $u$ to product $i$, for all $u,i$. 
+        Ones typically use the following Bayesian personalized ranking (BPR) loss to train the initial embedding vectors (and model parameters if any) in the field of CF:
+
+        \begin{align}
+        L = -\sum_{u=1}^{N}\sum_{i \in \mathcal{N}_u}\sum_{j \notin \mathcal{N}_u} \ln \sigma (r_{u,i} - r_{u,j}) + \lambda \| \boldsymbol{E}^u_0 \odot \boldsymbol{E}^p_0 \|^2.
+        \end{align}
+        """
         
         return loss, reg_loss
        
