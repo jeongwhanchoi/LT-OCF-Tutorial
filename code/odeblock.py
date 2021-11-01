@@ -1,3 +1,7 @@
+"""
+# ODE Block and ODE function
+
+"""
 import torch
 import torch.nn as nn 
 import world
@@ -5,8 +9,6 @@ if world.adjoint:
     from torchdiffeq import odeint_adjoint as odeint
 else:
     from torchdiffeq import odeint
-
-from labml import monit, tracker, logger, experiment
 
 class ODEFunction(nn.Module):
     """
@@ -18,7 +20,7 @@ class ODEFunction(nn.Module):
 
     def forward(self, t, x):
         """
-        $\boldsymbol{E}_{k} = \boldsymbol{A}\boldsymbol{E}_{k-1} $
+        $ \boldsymbol{E}_{k} = \boldsymbol{A}\boldsymbol{E}_{k-1} $
         """
         out = torch.sparse.mm(self.g, x)
         return out
