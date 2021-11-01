@@ -21,7 +21,5 @@ print("adjoint method:", world.adjoint)
 print('===========end===================')
 
 MODELS = {
-    'mf': model.PureMF,
-    'lgn': model.LightGCN,
     'ltocf': model.LTOCF
 }
