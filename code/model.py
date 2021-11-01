@@ -94,16 +94,6 @@ class LTOCF(BasicModel):
         - `items_emb`: $\boldsymbol{p}$
         """
         
-        """
-        ## Dual co-evolving ODEs
-        \begin{align}
-        \boldsymbol{u}(t_1) =&\; \boldsymbol{u}(0) + \int_{0}^{t_1}f(\boldsymbol{p}(t))dt,\\
-        \boldsymbol{p}(t_1) =&\; \boldsymbol{p}(0) + \int_{0}^{t_1}g(\boldsymbol{u}(t))dt,\\
-        \vdots\\
-        \boldsymbol{u}(K) =&\; \boldsymbol{u}(t_T) + \int_{t_T}^{K}f(\boldsymbol{p}(t))dt,\\
-        \boldsymbol{p}(K) =&\; \boldsymbol{p}(t_T) + \int_{t_T}^{K}g(\boldsymbol{u}(t))dt,
-        \end{align}
-        """
         if world.config['learnable_time'] == True:
             out_1 = self.ode_block_test_1(all_emb, self.odetime_1)
             if world.config['dual_res'] == False:
@@ -138,13 +128,23 @@ class LTOCF(BasicModel):
             all_emb_4 = self.ode_block_4(all_emb_3)
             all_emb_4 = all_emb_4 - all_emb_3
             embs.append(all_emb_4)
+        """
+        ## Dual co-evolving ODEs
+        \begin{align}
+        \boldsymbol{u}(t_1) =&\; \boldsymbol{u}(0) + \int_{0}^{t_1}f(\boldsymbol{p}(t))dt,\\
+        \boldsymbol{p}(t_1) =&\; \boldsymbol{p}(0) + \int_{0}^{t_1}g(\boldsymbol{u}(t))dt,\\
+        \vdots\\
+        \boldsymbol{u}(K) =&\; \boldsymbol{u}(t_T) + \int_{t_T}^{K}f(\boldsymbol{p}(t))dt,\\
+        \boldsymbol{p}(K) =&\; \boldsymbol{p}(t_T) + \int_{t_T}^{K}g(\boldsymbol{u}(t))dt,
+        \end{align}
+        """
 
         embs = torch.stack(embs, dim=1)
         light_out = torch.mean(embs, dim=1)
         """
         ### Eq.(11) in paper
         The final embeddings are calculated as follows:
-        
+
         \begin{align}
         \boldsymbol{E}^u_{final} = w_0\boldsymbol{u}(0) + \sum_{i=1}^{T}w_i\boldsymbol{u}(t_i) + w_K\boldsymbol{u}(K),\\
         \boldsymbol{E}^p_{final} = w_0\boldsymbol{p}(0) + \sum_{i=1}^{T}w_i\boldsymbol{p}(t_i) + w_K\boldsymbol{p}(K).
