@@ -11,21 +11,24 @@ else:
     from torchdiffeq import odeint
 
 class ODEFunction(nn.Module):
-    """
-       ## linear GCN (non-time-dependent) in ODE function
-    """
     def __init__(self, Graph):
         super(ODEFunction, self).__init__()
         self.g = Graph
 
     def forward(self, t, x):
         """
-        $ \boldsymbol{E}_{k} = \boldsymbol{A}\boldsymbol{E}_{k-1} $
+        ## linear GCN (non-time-dependent) in ODE function
+        
+        \begin{align}
+        \boldsymbol{E}_{k} = \boldsymbol{A}\boldsymbol{E}_{k-1}
+        \end{align}
+
         """
         out = torch.sparse.mm(self.g, x)
         return out
 
 class ODEBlock(nn.Module):
+    """## ODE Block"""
     def __init__(self, odeFunction, solver, init_time, final_time):
         super(ODEBlock, self).__init__()
         self.odefunc = odeFunction
@@ -34,6 +37,7 @@ class ODEBlock(nn.Module):
 
     def forward(self, x):
         self.integration_time = self.integration_time.type_as(x)
+        """## return the last time of ODE Integration"""
         out = odeint(func=self.odefunc, y0=x, t=self.integration_time, method=self.solver)
         return out[1]
 
@@ -94,59 +98,6 @@ class ODEBlockTimeLast(nn.Module):
         self.odefunc = odeFunction
         self.num_split = num_split
         self.one = torch.tensor([4.], requires_grad=False).to('cuda')
-        self.solver = solver
-        
-    def forward(self, x, t):
-        odetime = t
-        odetime_tensor = torch.cat(odetime, dim=0)
-        all_time = torch.cat([odetime_tensor,self.one], dim = 0).to('cuda')
-
-        all_time1 = all_time.type_as(x)
-        total_integration_time = all_time1
-        if self.solver == 'euler':
-            out = odeint(func = self.odefunc, y0 = x, t = total_integration_time, method=self.solver)
-        elif self.solver == 'dopri5':
-            out = odeint(func = self.odefunc, y0 = x, t = total_integration_time, method=self.solver, rtol=world.rtol, atol=world.atol)
-        elif self.solver == 'rk4':
-            out = odeint(func = self.odefunc, y0 = x, t = total_integration_time, method=self.solver)
-        else:
-            out = odeint(func = self.odefunc, y0 = x, t = total_integration_time, method=self.solver)
-        return out[1]
-
-class ODEBlockTimeLastK(nn.Module):
-    def __init__(self, odeFunction, num_split, solver, K):
-        super(ODEBlockTimeLastK, self).__init__()
-        self.odefunc = odeFunction
-        self.num_split = num_split
-        self.final_time = world.config['K']
-        self.one = torch.tensor([self.final_time], requires_grad=False).to('cuda')
-        self.solver = solver
-        
-    def forward(self, x, t):
-        odetime = t
-        odetime_tensor = torch.cat(odetime, dim=0)
-        all_time = torch.cat([odetime_tensor,self.one], dim = 0).to('cuda')
-
-        all_time1 = all_time.type_as(x)
-        total_integration_time = all_time1
-        if self.solver == 'euler':
-            out = odeint(func = self.odefunc, y0 = x, t = total_integration_time, method=self.solver)
-        elif self.solver == 'dopri5':
-            out = odeint(func = self.odefunc, y0 = x, t = total_integration_time, method=self.solver, rtol=world.rtol, atol=world.atol)
-        elif self.solver == 'rk4':
-            out = odeint(func = self.odefunc, y0 = x, t = total_integration_time, method=self.solver)
-        else:
-            out = odeint(func = self.odefunc, y0 = x, t = total_integration_time, method=self.solver)
-        return out[1]
-
-class ODEBlockTime(nn.Module):
-    def __init__(self, odeFunction, num_split, solver, init_time, final_time):
-        super(ODEBlockTimeLastK, self).__init__()
-        self.odefunc = odeFunction
-        self.num_split = num_split
-        self.init_time = init_time
-        self.final_time = final_time
-        self.one = torch.tensor([self.final_time], requires_grad=False).to('cuda')
         self.solver = solver
         
     def forward(self, x, t):
