@@ -1,7 +1,3 @@
-"""
-# LT-OCF model in PyTorch
-
-"""
 import world
 import torch
 from dataloader import BasicDataset
@@ -22,6 +18,9 @@ class PairWiseModel(BasicModel):
     def bpr_loss(self, users, pos, neg):
         raise NotImplementedError
 class LTOCF(BasicModel):
+    """
+    # LT-OCF model in PyTorch
+    """
     def __init__(self, 
                  config:dict, 
                  dataset:BasicDataset):
@@ -85,8 +84,9 @@ class LTOCF(BasicModel):
     def computer(self):
         """
         ## propagate methods for LT-OCF
-
         
+        - $u$:
+        - $p$: 
         """       
         users_emb = self.embedding_user.weight
         items_emb = self.embedding_item.weight
