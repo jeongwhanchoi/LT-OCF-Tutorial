@@ -25,7 +25,7 @@ class ODEFunction(nn.Module):
         \boldsymbol{E}_{k} = \tilde{\boldsymbol{A}}\boldsymbol{E}_{k-1},
         \end{align}
 
-        where $\tilde{\boldsymbol{A}} is a normalized adjacency matrix of the graph.
+        where $\tilde{\boldsymbol{A}}$ is a normalized adjacency matrix of the graph.
         """
         return out
 
