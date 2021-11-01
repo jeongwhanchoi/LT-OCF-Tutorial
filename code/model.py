@@ -200,11 +200,6 @@ class LTOCF(BasicModel):
         
         loss = torch.mean(torch.nn.functional.softplus(neg_scores - pos_scores))
         """
-
-        After a series of $K$ graph convolutional layers, 
-        a graph-based CF algorithm derives $\boldsymbol{E}^u_{final}$ and $\boldsymbol{E}^p_{final}$ 
-        and use their dot products to predict $r_{u,i}$, 
-        a rating (or ranking score) by user $u$ to product $i$, for all $u,i$. 
         Ones typically use the following Bayesian personalized ranking (BPR) loss to train the initial embedding vectors (and model parameters if any) in the field of CF:
 
         \begin{align}
@@ -221,4 +216,10 @@ class LTOCF(BasicModel):
         items_emb = all_items[items]
         inner_pro = torch.mul(users_emb, items_emb)
         gamma     = torch.sum(inner_pro, dim=1)
+        """
+        After a series of $K$ graph convolutional layers, 
+        a graph-based CF algorithm derives $\boldsymbol{E}^u_{final}$ and $\boldsymbol{E}^p_{final}$ 
+        and use their dot products to predict $r_{u,i}$, 
+        a rating (or ranking score) by user $u$ to product $i$, for all $u,i$. 
+        """
         return gamma
