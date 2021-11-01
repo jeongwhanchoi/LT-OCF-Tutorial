@@ -18,7 +18,7 @@ class ODEFunction(nn.Module):
 
     def forward(self, t, x):
         """
-        $\boldsymbol{E}_{k} = \boldsymbol{A}\boldsymbol{E}_{k-1}
+        $\boldsymbol{E}_{k} = \boldsymbol{A}\boldsymbol{E}_{k-1} $
         """
         out = torch.sparse.mm(self.g, x)
         return out
