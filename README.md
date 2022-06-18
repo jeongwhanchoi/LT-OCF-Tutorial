@@ -13,6 +13,7 @@ This is the repository of our accepted CIKM 2021 paper "LT-OCF: Learnable-Time O
 
 ## Citation
 
+### Citing the paper
 Please cite our paper if using this code.
 
 ```
@@ -25,7 +26,7 @@ Please cite our paper if using this code.
 }
 ```
 
-## Citing this repo
+### Citing this repo
 If you use tutorial materials in your own studies, and work, please cite it by using the following:
 
 ```
