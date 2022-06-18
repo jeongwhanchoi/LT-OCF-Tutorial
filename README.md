@@ -25,6 +25,19 @@ Please cite our paper if using this code.
 }
 ```
 
+## Citing this repo
+If you use tutorial materials in your own studies, and work, please cite it by using the following:
+
+```
+@Misc{choi2021ltocf,
+  author =   {Choi, Jeongwhan},
+  title =    {{LT-OCF: Learnable-Time ODE-based Collaborative Filtering}},
+  howpublished = {\url{https://github.com/jeongwhanchoi/LT-OCF-Tutorial}},
+  month        = November,
+  year = {since 2021}
+}
+```
+
 ## Our proposed LT-OCF
 
  <img src="img/lt-ocf.png" height="250">
@@ -81,11 +94,3 @@ sh ltocf_gowalla_rk4_fixed.sh
     - True, False
 - dual_res
     - **False**, True
-
----
-
-## Authors
-
-- Jeongwhan Choi (jeongwhan.choi@yonsei.ac.kr)
-- Jinsung Jeon (jjsjjs0902@yonsei.ac.kr)
-- Noseong Park (noseong@yonsei.ac.kr)
