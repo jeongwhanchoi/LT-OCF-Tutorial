@@ -4,7 +4,7 @@
 
 ## Links for Tutorial: 
 
-- Google Colab Notebook Link: [Colab](https://colab.research.google.com/drive/1lLgGStY7LisFGelY5HdHXZrgjSXO29kz?usp=sharing)
+- Google Colab Notebook Link: [Colab](https://colab.research.google.com/drive/1FDvaCDuc5TsqKXpuXqXHr-jSsFKS-rx3?usp=sharing)
 - Annotated Tutorial link: [Annotated LT-OCF](https://lit.labml.ai/github/jeongwhanchoi/LT-OCF-Tutorial/tree/main/code)
 - Original Github repository: [LT-OCF](https://github.com/jeongwhanchoi/LT-OCF)
 ## Introduction
